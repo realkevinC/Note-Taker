@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const path = require("path");
 
+
+// all of these routes are prefixed with '/'
 router.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/notes.html'));
 });
