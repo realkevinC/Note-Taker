@@ -9,7 +9,7 @@ const {createNote, deleteNote} = require("../../lib/notes");
 router.get('/notes', (req, res) => {
     console.log(db);
     // read the dataset
-    res.status(200).json(db);
+    res.status(200).json(db.notes);
 });
 
 
@@ -18,26 +18,35 @@ router.post('/notes', (req, res) => {
     // we want to get information from the user
     console.log(req.body)
 
-    req.body.id= uuidv4();
-    // construct an temp object to put in the db
-    
-    // we need to request/query for the dataset (database)
+    // deconstrcut the request body object
+    // let { title, text } = req.body; 
 
-    // do we need to convert the data type? (JSON.parse())
+    // construct an temp object to put in the db
+    const tempNote = {
+        id: uuidv4(),
+        title: req.body.title,
+        text:req.body.text  
+    }
+
+    console.log(tempNote);
+    // we need to request/query for the dataset (database)
+    // console.log(db.notes);
+    // console.log(typeof db.notes);
+    //db.notes.push(tempNote);
 
     // we need to add the new data
 
     // we need to write the new data (JSON.stringify() )
 
     // response with the new data
-    const newNote = createNote(req.body, notes);
+    const newNote = createNote(tempNote, db.notes);
     res.status(201).json(newNote);
 });
 
 router.delete('/notes/:id' , (req, res) => {
     const params = req.params.id
-    deleteNote(params, notes);
-    res.redirect('');
+    deleteNote(params, db.notes);
+    res.redirect('/notes');
     });
 module.exports = router;
 
